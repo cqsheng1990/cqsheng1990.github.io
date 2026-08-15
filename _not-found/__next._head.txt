@@ -1,0 +1,8 @@
+1:"$Sreact.fragment"
+2:I[7643,[],"ViewportBoundary"]
+4:I[7643,[],"MetadataBoundary"]
+5:"$Sreact.suspense"
+7:I[9762,[],"IconMark"]
+0:{"buildId":"3378jztk1y14MaCr9_0nq","rsc":["$","$1","h",{"children":[["$","meta",null,{"name":"robots","content":"noindex"}],["$","$L2",null,{"children":"$@3"}],["$","div",null,{"hidden":true,"children":["$","$L4",null,{"children":["$","$5",null,{"name":"Next.Metadata","children":"$@6"}]}]}],null]}],"loading":null,"isPartial":false}
+3:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
+6:[["$","title","0",{"children":"玄小玄 - 八字计算器"}],["$","meta","1",{"name":"description","content":"专业的八字命盘计算工具，支持阴历阳历自动换算，包含城市时区选择功能"}],["$","link","2",{"rel":"icon","href":"/favicon.ico?603d046c9a6fdfbb","type":"image/x-icon","sizes":"16x16"}],["$","$L7","3",{}]]
