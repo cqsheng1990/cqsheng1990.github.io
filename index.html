@@ -308,4 +308,47 @@
     window.setTimeout(startAfterHydration, 300);
   });
 })();
+</script><style id="zodiac-refined-style">
+.zodiac-refined>div:nth-child(2){padding:1rem!important}
+.zodiac-refined>div:nth-child(2)>div{margin-bottom:1rem!important}
+.zodiac-refined>div:nth-child(2)>div:last-child{margin-bottom:0!important}
+.zodiac-refined>div:nth-child(2) .mb-6{margin-bottom:1rem!important}
+.zodiac-refined>div:nth-child(2) .mb-4{margin-bottom:.75rem!important}
+.zodiac-refined .zodiac-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:.75rem!important}
+.zodiac-refined .zodiac-card-grid>div{min-width:0;border-radius:.5rem!important;box-shadow:none!important}
+.zodiac-refined .zodiac-card-grid>div>div:first-child{padding:.75rem!important}
+.zodiac-refined .zodiac-card-grid>div>div:first-child>div:first-child{display:block!important}
+.zodiac-refined .zodiac-card-grid>div>div:first-child>div:first-child>div:first-child{display:flex!important;align-items:flex-start!important;gap:.375rem!important}
+.zodiac-refined .zodiac-card-grid>div>div:first-child>div:first-child>div:first-child>div:first-child{gap:.375rem!important}
+.zodiac-refined .zodiac-card-grid>div>div:first-child>div:first-child>div:nth-child(2){display:block!important;width:100%!important;margin-top:.5rem!important;text-align:left!important}
+.zodiac-refined .zodiac-card-grid>div>div:first-child>div:first-child>div:nth-child(2)>div{display:flex!important;align-items:flex-start!important;gap:.375rem!important}
+.zodiac-refined .zodiac-card-grid>div>div:last-child{padding:.75rem!important}
+.zodiac-refined .zodiac-card-grid>div>div:last-child .space-y-4{row-gap:.5rem!important}
+.zodiac-refined .zodiac-card-grid>div>div:last-child .mb-4{margin-bottom:.5rem!important}
+.zodiac-refined .zodiac-card-grid>div>div:last-child .space-y-2{row-gap:.375rem!important}
+.zodiac-refined .zodiac-card-grid .leading-relaxed{line-height:1.6!important}
+@media(max-width:639px){.zodiac-refined>div:nth-child(2){padding:.875rem!important}.zodiac-refined .zodiac-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:.625rem!important}.zodiac-refined .zodiac-card-grid>div>div:first-child,.zodiac-refined .zodiac-card-grid>div>div:last-child{padding:.625rem!important}}
+</style>
+<script data-zodiac-refined-script>
+(function () {
+  function refineZodiacPanel() {
+    var heading = Array.prototype.find.call(document.querySelectorAll("h3"), function (node) {
+      return node.textContent.trim() === "生肖生克";
+    });
+    if (!heading) return;
+    var panel = heading.closest("div.bg-card.rounded-xl");
+    if (!panel) return;
+    panel.classList.add("zodiac-refined");
+  }
+  function startAfterHydration() {
+    var observer = new MutationObserver(function () {
+      window.requestAnimationFrame(refineZodiacPanel);
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+    refineZodiacPanel();
+  }
+  window.addEventListener("load", function () {
+    window.setTimeout(startAfterHydration, 300);
+  });
+})();
 </script></body></html>
