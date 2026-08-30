@@ -254,4 +254,47 @@
     window.setTimeout(startAfterHydration, 300);
   });
 })();
+</script><style id="zodiac-advice-tofu-style">
+.zodiac-advice-panel{padding:1rem!important}
+.zodiac-advice-panel>.zodiac-advice-explanation{margin-bottom:1rem!important;padding:.75rem!important;border:1px solid var(--border)!important;border-radius:.5rem!important;background:var(--card)!important}
+.zodiac-advice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem!important}
+.zodiac-advice-tofu{min-width:0;border:1px solid var(--border);border-radius:.5rem;background:var(--card);padding:.75rem!important}
+.zodiac-advice-tofu>div:first-child{margin-bottom:.375rem!important;font-size:.8125rem!important}
+.zodiac-advice-tofu .space-y-2{row-gap:.375rem!important}
+.zodiac-advice-tofu .leading-relaxed{line-height:1.6!important}
+.zodiac-advice-tofu .gap-2\.5{gap:.375rem!important}
+@media(max-width:639px){.zodiac-advice-panel{padding:.875rem!important}.zodiac-advice-grid{grid-template-columns:1fr;gap:.625rem!important}.zodiac-advice-tofu{padding:.75rem!important}}
+</style>
+<script data-zodiac-advice-tofu-script>
+(function () {
+  function compactZodiacAdvice() {
+    var heading = Array.prototype.find.call(document.querySelectorAll("h3"), function (node) {
+      return node.textContent.trim() === "生肖生克";
+    });
+    if (!heading) return;
+    var panel = heading.closest("div.bg-card.rounded-xl");
+    if (!panel) return;
+    Array.prototype.forEach.call(panel.querySelectorAll("div.border-t.border-border.p-5"), function (detail) {
+      detail.classList.add("zodiac-advice-panel");
+      var explanation = detail.children[0];
+      if (explanation) explanation.classList.add("zodiac-advice-explanation");
+      var categories = detail.children[1];
+      if (!categories || !categories.classList.contains("space-y-4") || !categories.children.length) return;
+      categories.classList.add("zodiac-advice-grid");
+      Array.prototype.forEach.call(categories.children, function (category) {
+        category.classList.add("zodiac-advice-tofu");
+      });
+    });
+  }
+  function startAfterHydration() {
+    var observer = new MutationObserver(function () {
+      window.requestAnimationFrame(compactZodiacAdvice);
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+    compactZodiacAdvice();
+  }
+  window.addEventListener("load", function () {
+    window.setTimeout(startAfterHydration, 300);
+  });
+})();
 </script></body></html>
