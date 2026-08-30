@@ -33,4 +33,89 @@
     window.setTimeout(startAfterHydration, 300);
   });
 })();
+</script><style id="industry-tofu-style">
+.job-direction-groups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}
+.job-direction-group{min-width:0;border:1px solid var(--border);border-radius:.5rem;background:var(--card);padding:.75rem}
+.job-direction-group-header{display:flex;align-items:center;gap:.625rem;min-height:2.25rem;margin-bottom:.625rem;border-bottom:1px solid var(--border);padding-bottom:.625rem}
+.job-direction-element{display:grid;place-items:center;width:2rem;height:2rem;flex:none;border-radius:50%;background:var(--primary-100);color:var(--primary-800);font-weight:700}
+.job-direction-group-title{font-size:.875rem;font-weight:700;color:var(--charcoal-900)}
+.job-direction-group-count{margin-left:auto;color:var(--muted-foreground);font-size:.6875rem;white-space:nowrap}
+.job-direction-tofu-grid{display:grid;gap:.5rem}
+.job-direction-tofu{min-width:0!important;border:1px solid var(--border)!important;border-radius:.375rem!important;background:var(--background)!important;padding:.625rem!important;box-shadow:none!important}
+.job-direction-tofu-head{margin-bottom:.25rem!important;align-items:flex-start!important;gap:.25rem!important}
+.job-direction-tofu-head>div{min-width:0;flex-wrap:wrap;gap:.25rem!important}
+.job-direction-tofu-head>div>span:first-child{min-width:0;overflow-wrap:anywhere}
+.job-direction-tofu-head>span{max-width:45%;text-align:right;line-height:1.4}
+.job-direction-tofu>.text-xs.text-charcoal-600{line-height:1.55}
+.job-direction-tofu .mt-1\.5{margin-top:.375rem!important}
+@media(max-width:639px){.job-direction-groups{grid-template-columns:1fr}.job-direction-group{padding:.625rem}.job-direction-tofu{padding:.625rem!important}.job-direction-tofu-head>span{max-width:100%;text-align:left}.job-direction-tofu>.text-xs.text-charcoal-600{line-height:1.65}}
+</style>
+<script data-industry-tofu-script>
+(function () {
+  var elementOrder = ["木", "火", "土", "金", "水"];
+  function createTextElement(tag, className, text) {
+    var element = document.createElement(tag);
+    element.className = className;
+    element.textContent = text;
+    return element;
+  }
+  function groupIndustryCards() {
+    var heading = Array.prototype.find.call(document.querySelectorAll("h3"), function (node) {
+      return node.textContent.trim() === "职业方向建议";
+    });
+    if (!heading) return;
+    var panel = heading.closest("div.bg-card.rounded-xl");
+    if (!panel) return;
+    var sectionHeading = Array.prototype.find.call(panel.querySelectorAll("div"), function (node) {
+      return node.textContent.trim() === "推荐行业与岗位";
+    });
+    var section = sectionHeading && sectionHeading.parentElement;
+    var list = section && section.children[1];
+    if (!list || list.classList.contains("job-direction-groups")) return;
+    var cards = Array.prototype.slice.call(list.children);
+    if (!cards.length) return;
+    var groups = new Map();
+    cards.forEach(function (card) {
+      var metadata = card.querySelector("div.flex.items-center.gap-2");
+      var metadataItems = metadata ? Array.prototype.slice.call(metadata.children) : [];
+      var element = metadataItems[2] ? metadataItems[2].textContent.trim() : "其他";
+      if (!groups.has(element)) groups.set(element, []);
+      groups.get(element).push(card);
+    });
+    list.innerHTML = "";
+    list.className = "job-direction-groups";
+    var orderedElements = elementOrder.filter(function (element) { return groups.has(element); });
+    groups.forEach(function (_, element) { if (orderedElements.indexOf(element) < 0) orderedElements.push(element); });
+    orderedElements.forEach(function (element) {
+      var group = document.createElement("section");
+      group.className = "job-direction-group";
+      group.setAttribute("aria-label", element + "五行职业方向");
+      var header = document.createElement("div");
+      header.className = "job-direction-group-header";
+      header.appendChild(createTextElement("span", "job-direction-element", element));
+      header.appendChild(createTextElement("strong", "job-direction-group-title", element + "行方向"));
+      header.appendChild(createTextElement("span", "job-direction-group-count", groups.get(element).length + " 项"));
+      var items = document.createElement("div");
+      items.className = "job-direction-tofu-grid";
+      groups.get(element).forEach(function (card) {
+        card.classList.add("job-direction-tofu");
+        var cardHeader = card.querySelector("div.flex.items-center.justify-between");
+        if (cardHeader) cardHeader.classList.add("job-direction-tofu-head");
+        items.appendChild(card);
+      });
+      group.append(header, items);
+      list.appendChild(group);
+    });
+  }
+  function startAfterHydration() {
+    var observer = new MutationObserver(function () {
+      window.requestAnimationFrame(groupIndustryCards);
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+    groupIndustryCards();
+  }
+  window.addEventListener("load", function () {
+    window.setTimeout(startAfterHydration, 300);
+  });
+})();
 </script></body></html>
