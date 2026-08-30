@@ -27,21 +27,21 @@
     h2{font-size:21px;line-height:1.35}
     p{margin:0}
     .intro{border-bottom:1px solid var(--line);padding-bottom:30px;display:flex;align-items:flex-end;justify-content:space-between;gap:32px}
-    .intro-copy{max-width:720px}
-    .intro-copy p{margin-top:14px;max-width:660px;color:#525252;font-size:15px;line-height:1.85}
+    .intro-copy{max-width:760px}
+    .intro-copy p{margin-top:14px;max-width:700px;color:#525252;font-size:15px;line-height:1.85}
     .status{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;color:var(--muted);font-size:14px}
     .status-dot{width:8px;height:8px;border-radius:50%;background:var(--success)}
-    .workspace{display:grid;grid-template-columns:280px minmax(0,1fr);gap:24px;margin-top:28px}
+    .page-picker{margin-top:28px}
     .section-label{display:flex;align-items:center;gap:9px;font-weight:700;font-size:14px}
     .section-icon{width:14px;height:14px;border:1px solid var(--brown);display:inline-block;position:relative}
     .section-icon:after{content:"";position:absolute;inset:3px;border:1px solid var(--brown)}
-    .page-list{margin-top:12px;display:grid;gap:8px}
-    .page-button{display:block;width:100%;text-align:left;border:1px solid var(--line);border-radius:8px;background:var(--card);padding:13px 15px;color:var(--ink);transition:border-color .16s,background .16s}
+    .page-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}
+    .page-button{display:block;width:100%;min-height:88px;text-align:left;border:1px solid var(--line);border-radius:8px;background:var(--card);padding:13px 15px;color:var(--ink);transition:border-color .16s,background .16s,box-shadow .16s}
     .page-button:hover{border-color:#b8a68e}
-    .page-button[aria-pressed="true"]{border-color:var(--brown);background:var(--brown-soft)}
+    .page-button[aria-pressed="true"]{border-color:var(--brown);background:var(--brown-soft);box-shadow:0 2px 8px rgba(44,44,44,.05)}
     .page-button strong{display:block;font-size:14px}
-    .page-button small{display:block;margin-top:4px;color:var(--muted);font-size:12px;line-height:1.55}
-    .side-note{border-top:1px solid var(--line);margin-top:22px;padding-top:18px;color:#6b6b6b;font-size:13px;line-height:1.75}
+    .page-button small{display:block;margin-top:5px;color:var(--muted);font-size:12px;line-height:1.55}
+    .stage{margin-top:28px}
     .stage-head{min-height:51px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
     .stage-path{margin-top:3px;font:12px/1.5 Consolas,monospace;color:#7a7a7a}
     .controls{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px}
@@ -51,7 +51,14 @@
     .viewport[aria-pressed="true"]{background:var(--dark);color:#fff}
     .action{min-height:44px;display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:6px;background:var(--card);padding:7px 12px;color:#3d3d3d;font-size:13px;font-weight:700}
     .action:hover{border-color:#b8a68e;color:var(--dark)}
-    .stage-scroll{margin-top:20px;overflow:auto;border:1px solid var(--line);border-radius:10px;background:#e8e4de;padding:20px}
+    .interaction-bar{margin-top:16px;min-height:52px;display:flex;align-items:center;justify-content:space-between;gap:16px;border:1px solid #d4c5b0;border-radius:8px;background:var(--brown-soft);padding:8px 12px 8px 15px;color:#6b6b6b;font-size:13px}
+    .interaction-copy{display:flex;align-items:center;gap:9px;min-width:0}
+    .lock-mark{width:18px;height:18px;flex:none;border:1px solid var(--brown);border-radius:4px;position:relative}
+    .lock-mark:before{content:"";position:absolute;left:4px;top:-6px;width:8px;height:8px;border:1px solid var(--brown);border-bottom:0;border-radius:6px 6px 0 0}
+    .interaction-copy span:last-child{min-width:0}
+    .interaction-button{min-height:38px;flex:none;border:1px solid var(--dark);border-radius:6px;background:var(--dark);color:#fff;padding:6px 12px;font-size:12px;font-weight:700}
+    .interaction-button:hover{background:#3d3d3d}
+    .stage-scroll{margin-top:12px;overflow:auto;border:1px solid var(--line);border-radius:10px;background:#e8e4de;padding:20px}
     .stage-inner{width:max-content;min-width:100%;min-height:500px;display:flex;justify-content:center;align-items:flex-start}
     .frame-shell{flex:none;overflow:hidden;border:1px solid #ababab;border-radius:8px;background:#fff;box-shadow:0 8px 24px rgba(44,44,44,.1)}
     .browser-bar{height:32px;display:flex;align-items:center;gap:5px;padding:0 10px;border-bottom:1px solid var(--line);background:#fff}
@@ -59,12 +66,6 @@
     .address{min-width:220px;flex:1;margin-left:6px;padding:3px 8px;border-radius:4px;background:var(--brown-soft);overflow:hidden;color:#8a8a8a;white-space:nowrap;text-overflow:ellipsis;font:10px/1.4 Consolas,monospace}
     .frame-body{height:calc(100% - 32px);position:relative;background:var(--bg)}
     iframe{display:block;width:100%;height:100%;border:0;background:var(--bg)}
-    .lock-overlay{position:absolute;inset:0;display:grid;place-items:center;background:rgba(245,243,239,.18)}
-    .lock-card{width:min(280px,calc(100% - 32px));border:1px solid var(--line);border-radius:8px;background:rgba(255,255,255,.96);box-shadow:0 8px 24px rgba(44,44,44,.12);padding:20px;text-align:center}
-    .lock-card h3{font-size:18px;font-weight:700}
-    .lock-card p{margin-top:7px;color:#6b6b6b;font-size:12px;line-height:1.65}
-    .lock-card button{margin-top:14px;min-height:42px;border:0;border-radius:6px;background:var(--dark);color:#fff;padding:8px 16px;font-size:13px;font-weight:700}
-    .lock-card button:hover{background:#3d3d3d}
     .scope-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:20px}
     .scope{border:1px solid var(--line);border-radius:8px;background:var(--card);padding:17px 18px}
     .scope.focus{border-color:#d4c5b0;background:var(--brown-soft)}
@@ -73,9 +74,10 @@
     .scope li{display:flex;gap:8px;align-items:flex-start}
     .check{color:var(--brown);font-weight:700}
     .bullet{width:6px;height:6px;border-radius:50%;background:#8a8a8a;margin-top:7px;flex:none}
-    .interaction-note{margin-top:14px;color:#7a7a7a;font-size:12px;line-height:1.7}
-    @media (max-width:900px){.topbar-inner,.page{padding-left:20px;padding-right:20px}.intro{display:block}.status{margin-top:16px}.workspace{grid-template-columns:1fr}.page-list{grid-template-columns:repeat(2,minmax(0,1fr))}.side-note{margin-top:18px}.stage-head{display:block}.controls{justify-content:flex-start;margin-top:14px}}
-    @media (max-width:560px){.topbar-inner,.page{padding-left:16px;padding-right:16px}.page{padding-top:28px}h1{font-size:30px}.intro-copy p{font-size:14px}.page-list{grid-template-columns:1fr}.stage-scroll{padding:12px}.scope-grid{grid-template-columns:1fr}.viewport{padding-left:9px;padding-right:9px}.address{min-width:120px}}
+    .interaction-note{margin-top:12px;color:#7a7a7a;font-size:12px;line-height:1.7}
+    @media (max-width:1100px){.topbar-inner,.page{padding-left:24px;padding-right:24px}.page-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (max-width:720px){.topbar-inner,.page{padding-left:16px;padding-right:16px}.page{padding-top:28px}.intro{display:block}h1{font-size:30px}.status{margin-top:16px}.intro-copy p{font-size:14px}.stage-head{display:block}.controls{justify-content:flex-start;margin-top:14px}.interaction-bar{align-items:flex-start}.interaction-copy{line-height:1.6}.stage-scroll{padding:12px}}
+    @media (max-width:520px){.page-list{grid-template-columns:1fr}.scope-grid{grid-template-columns:1fr}.viewport{padding-left:9px;padding-right:9px}.address{min-width:120px}.interaction-bar{display:block}.interaction-button{margin-top:8px}}
   </style>
 </head>
 <body>
@@ -90,45 +92,43 @@
       <div class="intro-copy">
         <div class="eyebrow">ONLINE DESIGN WORKBENCH</div>
         <h1>在真实线上页面里确认每一次调整</h1>
-        <p>这里加载当前 GitHub Pages 的真实发布页面。先选择要看的页面和视口，再确认本轮重点与保持不变的范围。</p>
+        <p>这里加载当前 GitHub Pages 的真实发布页面。先选择页面和视口，再看完整页面内容；下方会同步列出本轮重点与保持不变的范围。</p>
       </div>
       <div class="status"><span class="status-dot" aria-hidden="true"></span>线上发布物预览</div>
     </section>
-    <div class="workspace">
-      <aside>
-        <div class="section-label"><span class="section-icon" aria-hidden="true"></span>选择页面</div>
-        <div class="page-list" id="pageList"></div>
-        <p class="side-note">默认是视觉预览模式，不会在嵌入页面中触发表单、保存、删除等操作。需要测试交互时，请使用“开启交互”或新窗口打开。</p>
-      </aside>
-      <section aria-labelledby="stageTitle">
-        <div class="stage-head">
-          <div><h2 id="stageTitle">首页 / 排盘入口</h2><div class="stage-path" id="stagePath">/</div></div>
-          <div class="controls">
-            <div class="viewport-picker" id="viewportPicker" aria-label="选择预览视口"></div>
-            <button class="action" id="reload" type="button"><span aria-hidden="true">⟳</span>重新加载</button>
-            <button class="action" id="openPage" type="button"><span aria-hidden="true">↗</span>新窗口查看</button>
+
+    <section class="page-picker" aria-labelledby="pagePickerTitle">
+      <div class="section-label" id="pagePickerTitle"><span class="section-icon" aria-hidden="true"></span>选择页面</div>
+      <div class="page-list" id="pageList"></div>
+    </section>
+
+    <section class="stage" aria-labelledby="stageTitle">
+      <div class="stage-head">
+        <div><h2 id="stageTitle">首页 / 排盘入口</h2><div class="stage-path" id="stagePath">/</div></div>
+        <div class="controls">
+          <div class="viewport-picker" id="viewportPicker" aria-label="选择预览视口"></div>
+          <button class="action" id="reload" type="button"><span aria-hidden="true">⟳</span>重新加载</button>
+          <button class="action" id="openPage" type="button"><span aria-hidden="true">↗</span>新窗口查看</button>
+        </div>
+      </div>
+      <div class="interaction-bar" id="interactionBar">
+        <div class="interaction-copy"><span class="lock-mark" aria-hidden="true"></span><span id="interactionText">视觉预览模式已锁定页面交互，内容不会被遮挡；适合直接检查布局和文字层级。</span></div>
+        <button class="interaction-button" id="enableInteraction" type="button">开启交互</button>
+      </div>
+      <div class="stage-scroll">
+        <div class="stage-inner">
+          <div class="frame-shell" id="frameShell">
+            <div class="browser-bar" aria-hidden="true"><span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span><span class="address" id="address">cqsheng1990.github.io/</span></div>
+            <div class="frame-body"><iframe id="pageFrame" title="首页 / 排盘入口实时预览" tabindex="-1"></iframe></div>
           </div>
         </div>
-        <div class="stage-scroll">
-          <div class="stage-inner">
-            <div class="frame-shell" id="frameShell">
-              <div class="browser-bar" aria-hidden="true"><span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span><span class="address" id="address">cqsheng1990.github.io/</span></div>
-              <div class="frame-body" id="frameBody">
-                <iframe id="pageFrame" title="首页 / 排盘入口实时预览" tabindex="-1"></iframe>
-                <div class="lock-overlay" id="lockOverlay">
-                  <div class="lock-card"><h3>视觉预览模式</h3><p>页面交互已锁定，用于避免误触发线上数据操作。</p><button type="button" id="enableInteraction">开启交互</button></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <p class="interaction-note" id="interactionNote">当前仅检查视觉、布局与内容层级；下方页面范围会告诉你优先改哪里，以及哪些逻辑保持不动。</p>
-        <div class="scope-grid">
-          <article class="scope focus"><h3>本轮重点看什么</h3><ul id="focusList"></ul></article>
-          <article class="scope"><h3>保持不变</h3><ul id="preserveList"></ul></article>
-        </div>
-      </section>
-    </div>
+      </div>
+      <p class="interaction-note">如需完整滚动或测试按钮，请使用“新窗口查看”；开启嵌入交互后，请避免提交、保存、删除或清空线上数据。</p>
+      <div class="scope-grid">
+        <article class="scope focus"><h3>本轮重点看什么</h3><ul id="focusList"></ul></article>
+        <article class="scope"><h3>保持不变</h3><ul id="preserveList"></ul></article>
+      </div>
+    </section>
   </main>
   <script>
     const pages = [
@@ -143,20 +143,19 @@
       {id:'mobile',label:'手机',width:390,height:740}
     ];
     let selectedPage = pages[0];
-    let selectedViewport = viewports[0];
+    let selectedViewport = window.innerWidth < 640 ? viewports[2] : viewports[0];
     let interactionEnabled = false;
     const pageList = document.getElementById('pageList');
     const viewportPicker = document.getElementById('viewportPicker');
     const pageFrame = document.getElementById('pageFrame');
     const frameShell = document.getElementById('frameShell');
-    const frameBody = document.getElementById('frameBody');
-    const lockOverlay = document.getElementById('lockOverlay');
     const address = document.getElementById('address');
     const stageTitle = document.getElementById('stageTitle');
     const stagePath = document.getElementById('stagePath');
     const focusList = document.getElementById('focusList');
     const preserveList = document.getElementById('preserveList');
-    const interactionNote = document.getElementById('interactionNote');
+    const interactionText = document.getElementById('interactionText');
+    const enableInteraction = document.getElementById('enableInteraction');
     function previewUrl(path){return path + (path.includes('?') ? '&' : '?') + 'preview=1'}
     function renderLists(){
       pageList.innerHTML = pages.map((page) => '<button class="page-button" type="button" data-page="'+page.id+'" aria-pressed="'+(page.id===selectedPage.id)+'"><strong>'+page.label+'</strong><small>'+page.description+'</small></button>').join('');
@@ -178,18 +177,18 @@
       pageFrame.src=previewUrl(selectedPage.path);
       interactionEnabled=false;
       pageFrame.style.pointerEvents='none';
-      lockOverlay.style.display='grid';
-      interactionNote.textContent='当前仅检查视觉、布局与内容层级；下方页面范围会告诉你优先改哪里，以及哪些逻辑保持不动。';
+      enableInteraction.textContent='开启交互';
+      interactionText.textContent='视觉预览模式已锁定页面交互，内容不会被遮挡；适合直接检查布局和文字层级。';
       renderLists();
     }
     document.getElementById('reload').addEventListener('click',loadPreview);
     document.getElementById('openPage').addEventListener('click',()=>window.open(selectedPage.path,'_blank','noopener,noreferrer'));
-    document.getElementById('enableInteraction').addEventListener('click',()=>{
-      interactionEnabled=true;
-      pageFrame.style.pointerEvents='auto';
-      pageFrame.removeAttribute('tabindex');
-      lockOverlay.style.display='none';
-      interactionNote.textContent='已开启页面交互。当前操作发生在线上页面，请避免提交、保存、删除或清空数据。';
+    enableInteraction.addEventListener('click',()=>{
+      interactionEnabled=!interactionEnabled;
+      pageFrame.style.pointerEvents=interactionEnabled?'auto':'none';
+      pageFrame.tabIndex=interactionEnabled?0:-1;
+      enableInteraction.textContent=interactionEnabled?'锁定交互':'开启交互';
+      interactionText.textContent=interactionEnabled?'已开启嵌入页面交互。当前操作发生在线上页面，请避免提交、保存、删除或清空数据。':'视觉预览模式已锁定页面交互，内容不会被遮挡；适合直接检查布局和文字层级。';
     });
     renderScope();
     loadPreview();
