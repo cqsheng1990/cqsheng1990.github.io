@@ -164,4 +164,52 @@
     window.setTimeout(startAfterHydration, 300);
   });
 })();
+</script><style id="desk-direction-reflow-style">
+.work-direction-choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+.work-direction-choice-grid>div{margin-bottom:0!important;min-width:0}
+.work-direction-choice-grid .grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:.5rem!important}
+.work-direction-choice-grid .grid>div{min-width:0;padding:.625rem!important;box-shadow:none!important}
+.work-direction-choice-grid .grid>div .text-2xl{font-size:1.5rem!important;line-height:1.25!important}
+.work-direction-choice-grid .grid>div .mb-2{margin-bottom:.25rem!important}
+@media(max-width:639px){.work-direction-choice-grid{grid-template-columns:1fr;gap:.75rem}.work-direction-choice-grid .grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.work-direction-choice-grid .grid>div{padding:.5rem!important}}
+</style>
+<script data-desk-direction-reflow-script>
+(function () {
+  function reflowDeskDirection() {
+    var heading = Array.prototype.find.call(document.querySelectorAll("h3"), function (node) {
+      return node.textContent.trim() === "工位朝向建议";
+    });
+    if (!heading) return;
+    var panel = heading.closest("div.bg-card.rounded-xl");
+    if (!panel || panel.querySelector(".work-direction-choice-grid")) return;
+    var content = panel.children[1];
+    if (!content) return;
+    var children = Array.prototype.slice.call(content.children);
+    function findSection(label) {
+      return children.find(function (section) {
+        var title = Array.prototype.find.call(section.querySelectorAll("div"), function (node) {
+          return node.textContent.trim() === label;
+        });
+        return Boolean(title);
+      });
+    }
+    var goodSection = findSection("好的朝向");
+    var avoidSection = findSection("避免的朝向");
+    if (!goodSection || !avoidSection) return;
+    var choiceGrid = document.createElement("div");
+    choiceGrid.className = "work-direction-choice-grid";
+    content.insertBefore(choiceGrid, goodSection);
+    choiceGrid.append(goodSection, avoidSection);
+  }
+  function startAfterHydration() {
+    var observer = new MutationObserver(function () {
+      window.requestAnimationFrame(reflowDeskDirection);
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+    reflowDeskDirection();
+  }
+  window.addEventListener("load", function () {
+    window.setTimeout(startAfterHydration, 300);
+  });
+})();
 </script></body></html>
