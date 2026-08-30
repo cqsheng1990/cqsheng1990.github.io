@@ -48,10 +48,10 @@
     var dot = document.createElement("span");
     dot.className = "h-2 w-2 shrink-0 rounded-full bg-primary-400";
     var title = document.createElement("span");
-    title.className = "text-xs font-bold tracking-[0.18em] text-primary-300";
+    title.className = "reading-panel-title text-xs font-bold tracking-[0.18em] text-primary-300";
     title.textContent = "阅读提示";
     var subtitle = document.createElement("span");
-    subtitle.className = "text-sm text-charcoal-400";
+    subtitle.className = "reading-panel-subtitle text-sm text-charcoal-400";
     subtitle.textContent = "把传统规则放回现实观察";
     marker.append(dot, title, subtitle);
     var content = document.createElement("div");
@@ -60,10 +60,10 @@
       var column = document.createElement("div");
       column.className = "border-l-2 pl-4 " + borderClass;
       var eyebrow = document.createElement("span");
-      eyebrow.className = "text-xs font-bold tracking-[0.16em] text-primary-300";
+      eyebrow.className = "reading-panel-label text-xs font-bold tracking-[0.16em] text-primary-300";
       eyebrow.textContent = "0" + index + "  " + label;
       var paragraph = document.createElement("p");
-      paragraph.className = "mt-2 text-sm leading-7 text-charcoal-200";
+      paragraph.className = "reading-panel-copy mt-2 text-sm leading-7 text-charcoal-200";
       paragraph.textContent = text;
       column.append(eyebrow, paragraph);
       content.appendChild(column);
