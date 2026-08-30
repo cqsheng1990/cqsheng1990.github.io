@@ -254,34 +254,4 @@
     window.setTimeout(startAfterHydration, 300);
   });
 })();
-</script><style id="xuan-bagua-style">
-.xuan-bagua-mark{display:block;width:1.5rem;height:1.5rem;flex:none;color:var(--primary-300)}
-</style>
-<script data-xuan-bagua-script>
-(function () {
-  function mountBaguaMark() {
-    var oldMark = Array.prototype.find.call(document.querySelectorAll("span"), function (node) {
-      return node.textContent.trim() === "☯";
-    });
-    if (!oldMark || document.querySelector("[data-xuan-bagua-mark]")) return;
-    var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute("class", "xuan-bagua-mark");
-    svg.setAttribute("viewBox", "0 0 24 24");
-    svg.setAttribute("role", "img");
-    svg.setAttribute("aria-label", "八卦图标");
-    svg.setAttribute("data-xuan-bagua-mark", "true");
-    svg.innerHTML = '<circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1"/><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width=".8"><path d="M10 2.8h4M10 4.1h4M10 5.4h4"/><path d="M16.7 4.3l.9.9M15.8 5.2l.9.9M14.9 6.1l.9.9" transform="rotate(45 16.1 5.2)"/><path d="M18.6 10h3M18.6 11.3h3M18.6 12.6h3"/><path d="M16.7 17.7l.9.9M15.8 16.8l.9.9M14.9 15.9l.9.9" transform="rotate(135 16.1 16.8)"/><path d="M10 18.6h4M10 19.9h4M10 21.2h4"/><path d="M6.4 17.7l.9-.9M7.3 16.8l.9-.9M8.2 15.9l.9-.9" transform="rotate(225 7.7 16.8)"/><path d="M2.4 10h3M2.4 11.3h3M2.4 12.6h3"/><path d="M6.4 4.3l.9.9M7.3 5.2l.9.9M8.2 6.1l.9.9" transform="rotate(315 7.7 5.2)"/></g><path d="M12 6a6 6 0 0 0 0 12a3 3 0 0 0 0-6a3 3 0 0 1 0-6z" fill="currentColor"/><circle cx="12" cy="9" r=".8" fill="var(--background)"/><circle cx="12" cy="15" r=".8" fill="var(--background)"/>';
-    oldMark.replaceWith(svg);
-  }
-  function startAfterHydration() {
-    var observer = new MutationObserver(function () {
-      window.requestAnimationFrame(mountBaguaMark);
-    });
-    observer.observe(document.documentElement, { childList: true, subtree: true });
-    mountBaguaMark();
-  }
-  window.addEventListener("load", function () {
-    window.setTimeout(startAfterHydration, 300);
-  });
-})();
 </script></body></html>
