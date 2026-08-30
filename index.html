@@ -297,4 +297,50 @@
     window.setTimeout(startAfterHydration, 300);
   });
 })();
+</script><style id="zodiac-expand-down-style">
+.zodiac-expand-owner{align-self:start!important;height:max-content!important;overflow:visible!important;overflow-anchor:none!important}
+.zodiac-expand-owner>div:first-child{order:1;flex:none!important}
+.zodiac-expand-owner>.zodiac-advice-panel{order:2;position:static!important;inset:auto!important;transform:none!important;width:100%!important;margin-top:0!important;overflow-anchor:none!important}
+.zodiac-advice-panel{overflow-anchor:none!important}
+</style>
+<script data-zodiac-expand-down-script>
+(function () {
+  function markZodiacExpansion() {
+    var heading = Array.prototype.find.call(document.querySelectorAll("h3"), function (node) {
+      return node.textContent.trim() === "生肖生克";
+    });
+    if (!heading) return;
+    var panel = heading.closest("div.bg-card.rounded-xl");
+    if (!panel) return;
+    Array.prototype.forEach.call(panel.querySelectorAll(".zodiac-advice-panel"), function (detail) {
+      if (detail.parentElement) detail.parentElement.classList.add("zodiac-expand-owner");
+    });
+    if (panel.getAttribute("data-zodiac-expand-down") === "true") return;
+    panel.setAttribute("data-zodiac-expand-down", "true");
+    panel.addEventListener("click", function (event) {
+      var button = event.target.closest("div");
+      if (!button) return;
+      var label = button.textContent.trim();
+      if (label !== "查看建议" && label !== "收起建议") return;
+      var card = button.closest("div.bg-card.rounded-xl");
+      if (!card || card === panel) return;
+      var top = card.getBoundingClientRect().top + window.scrollY - 76;
+      window.requestAnimationFrame(function () {
+        window.requestAnimationFrame(function () {
+          window.scrollTo({ top: Math.max(0, top), behavior: "auto" });
+        });
+      });
+    }, true);
+  }
+  function startAfterHydration() {
+    var observer = new MutationObserver(function () {
+      window.requestAnimationFrame(markZodiacExpansion);
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+    markZodiacExpansion();
+  }
+  window.addEventListener("load", function () {
+    window.setTimeout(startAfterHydration, 300);
+  });
+})();
 </script></body></html>
