@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>玄小玄 - 页面预览</title>
+  <meta name="description" content="玄小玄线上页面预览台">
+  <style>
+    :root{--bg:#f5f3ef;--ink:#2c2c2c;--muted:#6b6b6b;--line:#e8e4de;--card:#fff;--brown:#8b6f4e;--brown-soft:#f3ede5;--dark:#1e1e1e;--success:#4a7c59}
+    *{box-sizing:border-box}
+    html{background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;line-height:1.55}
+    body{margin:0;min-width:320px;background:var(--bg)}
+    button,a{font:inherit}
+    button{cursor:pointer}
+    a{color:inherit;text-decoration:none}
+    .topbar{min-height:64px;background:var(--dark);color:#fff;border-bottom:1px solid #3d3d3d}
+    .topbar-inner,.page{width:min(1440px,100%);margin:0 auto;padding-left:32px;padding-right:32px}
+    .topbar-inner{min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:inline-flex;align-items:center;gap:12px;font-weight:700;min-height:44px}
+    .brand-mark{width:28px;height:28px;border:1px solid #d4c5b0;border-radius:50%;display:grid;place-items:center;color:#d4c5b0;font-size:13px}
+    .top-link{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 12px;border-radius:6px;color:#d1d1d1}
+    .top-link:hover{background:#2c2c2c;color:#fff}
+    .page{padding-top:40px;padding-bottom:56px}
+    .eyebrow{font-size:12px;letter-spacing:.08em;font-weight:700;color:#6e5a42}
+    h1,h2,h3{margin:0;font-family:"STSong","Songti SC","Microsoft YaHei",serif;letter-spacing:0}
+    h1{margin-top:12px;font-size:38px;line-height:1.25}
+    h2{font-size:21px;line-height:1.35}
+    p{margin:0}
+    .intro{border-bottom:1px solid var(--line);padding-bottom:30px;display:flex;align-items:flex-end;justify-content:space-between;gap:32px}
+    .intro-copy{max-width:720px}
+    .intro-copy p{margin-top:14px;max-width:660px;color:#525252;font-size:15px;line-height:1.85}
+    .status{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;color:var(--muted);font-size:14px}
+    .status-dot{width:8px;height:8px;border-radius:50%;background:var(--success)}
+    .workspace{display:grid;grid-template-columns:280px minmax(0,1fr);gap:24px;margin-top:28px}
+    .section-label{display:flex;align-items:center;gap:9px;font-weight:700;font-size:14px}
+    .section-icon{width:14px;height:14px;border:1px solid var(--brown);display:inline-block;position:relative}
+    .section-icon:after{content:"";position:absolute;inset:3px;border:1px solid var(--brown)}
+    .page-list{margin-top:12px;display:grid;gap:8px}
+    .page-button{display:block;width:100%;text-align:left;border:1px solid var(--line);border-radius:8px;background:var(--card);padding:13px 15px;color:var(--ink);transition:border-color .16s,background .16s}
+    .page-button:hover{border-color:#b8a68e}
+    .page-button[aria-pressed="true"]{border-color:var(--brown);background:var(--brown-soft)}
+    .page-button strong{display:block;font-size:14px}
+    .page-button small{display:block;margin-top:4px;color:var(--muted);font-size:12px;line-height:1.55}
+    .side-note{border-top:1px solid var(--line);margin-top:22px;padding-top:18px;color:#6b6b6b;font-size:13px;line-height:1.75}
+    .stage-head{min-height:51px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+    .stage-path{margin-top:3px;font:12px/1.5 Consolas,monospace;color:#7a7a7a}
+    .controls{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px}
+    .viewport-picker{display:flex;gap:3px;padding:3px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
+    .viewport{min-height:38px;border:0;border-radius:6px;padding:6px 11px;color:#525252;background:transparent;font-size:12px;font-weight:700}
+    .viewport:hover{background:var(--brown-soft)}
+    .viewport[aria-pressed="true"]{background:var(--dark);color:#fff}
+    .action{min-height:44px;display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:6px;background:var(--card);padding:7px 12px;color:#3d3d3d;font-size:13px;font-weight:700}
+    .action:hover{border-color:#b8a68e;color:var(--dark)}
+    .stage-scroll{margin-top:20px;overflow:auto;border:1px solid var(--line);border-radius:10px;background:#e8e4de;padding:20px}
+    .stage-inner{width:max-content;min-width:100%;min-height:500px;display:flex;justify-content:center;align-items:flex-start}
+    .frame-shell{flex:none;overflow:hidden;border:1px solid #ababab;border-radius:8px;background:#fff;box-shadow:0 8px 24px rgba(44,44,44,.1)}
+    .browser-bar{height:32px;display:flex;align-items:center;gap:5px;padding:0 10px;border-bottom:1px solid var(--line);background:#fff}
+    .browser-dot{width:8px;height:8px;border-radius:50%;background:#ababab}
+    .address{min-width:220px;flex:1;margin-left:6px;padding:3px 8px;border-radius:4px;background:var(--brown-soft);overflow:hidden;color:#8a8a8a;white-space:nowrap;text-overflow:ellipsis;font:10px/1.4 Consolas,monospace}
+    .frame-body{height:calc(100% - 32px);position:relative;background:var(--bg)}
+    iframe{display:block;width:100%;height:100%;border:0;background:var(--bg)}
+    .lock-overlay{position:absolute;inset:0;display:grid;place-items:center;background:rgba(245,243,239,.18)}
+    .lock-card{width:min(280px,calc(100% - 32px));border:1px solid var(--line);border-radius:8px;background:rgba(255,255,255,.96);box-shadow:0 8px 24px rgba(44,44,44,.12);padding:20px;text-align:center}
+    .lock-card h3{font-size:18px;font-weight:700}
+    .lock-card p{margin-top:7px;color:#6b6b6b;font-size:12px;line-height:1.65}
+    .lock-card button{margin-top:14px;min-height:42px;border:0;border-radius:6px;background:var(--dark);color:#fff;padding:8px 16px;font-size:13px;font-weight:700}
+    .lock-card button:hover{background:#3d3d3d}
+    .scope-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:20px}
+    .scope{border:1px solid var(--line);border-radius:8px;background:var(--card);padding:17px 18px}
+    .scope.focus{border-color:#d4c5b0;background:var(--brown-soft)}
+    .scope h3{font-family:inherit;font-size:14px;font-weight:700}
+    .scope ul{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:7px;color:#525252;font-size:13px}
+    .scope li{display:flex;gap:8px;align-items:flex-start}
+    .check{color:var(--brown);font-weight:700}
+    .bullet{width:6px;height:6px;border-radius:50%;background:#8a8a8a;margin-top:7px;flex:none}
+    .interaction-note{margin-top:14px;color:#7a7a7a;font-size:12px;line-height:1.7}
+    @media (max-width:900px){.topbar-inner,.page{padding-left:20px;padding-right:20px}.intro{display:block}.status{margin-top:16px}.workspace{grid-template-columns:1fr}.page-list{grid-template-columns:repeat(2,minmax(0,1fr))}.side-note{margin-top:18px}.stage-head{display:block}.controls{justify-content:flex-start;margin-top:14px}}
+    @media (max-width:560px){.topbar-inner,.page{padding-left:16px;padding-right:16px}.page{padding-top:28px}h1{font-size:30px}.intro-copy p{font-size:14px}.page-list{grid-template-columns:1fr}.stage-scroll{padding:12px}.scope-grid{grid-template-columns:1fr}.viewport{padding-left:9px;padding-right:9px}.address{min-width:120px}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">玄</span><span>玄小玄</span><span style="color:#b8a68e;font-weight:400">页面预览</span></a>
+      <a class="top-link" href="/" aria-label="返回玄小玄首页">返回首页 <span aria-hidden="true">↗</span></a>
+    </div>
+  </header>
+  <main class="page">
+    <section class="intro">
+      <div class="intro-copy">
+        <div class="eyebrow">ONLINE DESIGN WORKBENCH</div>
+        <h1>在真实线上页面里确认每一次调整</h1>
+        <p>这里加载当前 GitHub Pages 的真实发布页面。先选择要看的页面和视口，再确认本轮重点与保持不变的范围。</p>
+      </div>
+      <div class="status"><span class="status-dot" aria-hidden="true"></span>线上发布物预览</div>
+    </section>
+    <div class="workspace">
+      <aside>
+        <div class="section-label"><span class="section-icon" aria-hidden="true"></span>选择页面</div>
+        <div class="page-list" id="pageList"></div>
+        <p class="side-note">默认是视觉预览模式，不会在嵌入页面中触发表单、保存、删除等操作。需要测试交互时，请使用“开启交互”或新窗口打开。</p>
+      </aside>
+      <section aria-labelledby="stageTitle">
+        <div class="stage-head">
+          <div><h2 id="stageTitle">首页 / 排盘入口</h2><div class="stage-path" id="stagePath">/</div></div>
+          <div class="controls">
+            <div class="viewport-picker" id="viewportPicker" aria-label="选择预览视口"></div>
+            <button class="action" id="reload" type="button"><span aria-hidden="true">⟳</span>重新加载</button>
+            <button class="action" id="openPage" type="button"><span aria-hidden="true">↗</span>新窗口查看</button>
+          </div>
+        </div>
+        <div class="stage-scroll">
+          <div class="stage-inner">
+            <div class="frame-shell" id="frameShell">
+              <div class="browser-bar" aria-hidden="true"><span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span><span class="address" id="address">cqsheng1990.github.io/</span></div>
+              <div class="frame-body" id="frameBody">
+                <iframe id="pageFrame" title="首页 / 排盘入口实时预览" tabindex="-1"></iframe>
+                <div class="lock-overlay" id="lockOverlay">
+                  <div class="lock-card"><h3>视觉预览模式</h3><p>页面交互已锁定，用于避免误触发线上数据操作。</p><button type="button" id="enableInteraction">开启交互</button></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="interaction-note" id="interactionNote">当前仅检查视觉、布局与内容层级；下方页面范围会告诉你优先改哪里，以及哪些逻辑保持不动。</p>
+        <div class="scope-grid">
+          <article class="scope focus"><h3>本轮重点看什么</h3><ul id="focusList"></ul></article>
+          <article class="scope"><h3>保持不变</h3><ul id="preserveList"></ul></article>
+        </div>
+      </section>
+    </div>
+  </main>
+  <script>
+    const pages = [
+      {id:'home',label:'首页 / 排盘入口',path:'/',description:'主导航、首屏和出生信息填写流程。',focus:['主导航与首屏信息层级','出生信息表单与开始排盘入口','手机端首屏和底部空间'],preserve:['八字计算逻辑','输入校验与排盘口径','线上现有功能按钮']},
+      {id:'calendar',label:'历法转换',path:'/calendar-converter/',description:'公历与农历转换工具页面。',focus:['输入控件与结果反馈','说明文字的阅读顺序','手机端操作空间'],preserve:['历法转换计算逻辑','日期合法性校验','结果字段含义']},
+      {id:'user-center',label:'用户中心',path:'/user-center/',description:'线上已发布的用户中心页面。',focus:['页面入口与状态展示','窄屏布局','空状态信息'],preserve:['现有数据字段','账号相关功能边界','线上发布结构']},
+      {id:'admin',label:'管理页',path:'/admin/',description:'线上已发布的管理页面。',focus:['管理页信息层级','页面状态反馈','桌面与手机适配'],preserve:['现有管理数据展示','权限与接口边界','线上数据不被预览操作改变']}
+    ];
+    const viewports = [
+      {id:'desktop',label:'桌面',width:1120,height:720},
+      {id:'tablet',label:'平板',width:768,height:720},
+      {id:'mobile',label:'手机',width:390,height:740}
+    ];
+    let selectedPage = pages[0];
+    let selectedViewport = viewports[0];
+    let interactionEnabled = false;
+    const pageList = document.getElementById('pageList');
+    const viewportPicker = document.getElementById('viewportPicker');
+    const pageFrame = document.getElementById('pageFrame');
+    const frameShell = document.getElementById('frameShell');
+    const frameBody = document.getElementById('frameBody');
+    const lockOverlay = document.getElementById('lockOverlay');
+    const address = document.getElementById('address');
+    const stageTitle = document.getElementById('stageTitle');
+    const stagePath = document.getElementById('stagePath');
+    const focusList = document.getElementById('focusList');
+    const preserveList = document.getElementById('preserveList');
+    const interactionNote = document.getElementById('interactionNote');
+    function previewUrl(path){return path + (path.includes('?') ? '&' : '?') + 'preview=1'}
+    function renderLists(){
+      pageList.innerHTML = pages.map((page) => '<button class="page-button" type="button" data-page="'+page.id+'" aria-pressed="'+(page.id===selectedPage.id)+'"><strong>'+page.label+'</strong><small>'+page.description+'</small></button>').join('');
+      pageList.querySelectorAll('[data-page]').forEach((button) => button.addEventListener('click', () => {selectedPage=pages.find((page)=>page.id===button.dataset.page)||pages[0];loadPreview()}));
+      viewportPicker.innerHTML = viewports.map((viewport) => '<button class="viewport" type="button" data-viewport="'+viewport.id+'" aria-pressed="'+(viewport.id===selectedViewport.id)+'">'+viewport.label+'<br><span style="font-weight:400">'+viewport.width+'px</span></button>').join('');
+      viewportPicker.querySelectorAll('[data-viewport]').forEach((button) => button.addEventListener('click', () => {selectedViewport=viewports.find((viewport)=>viewport.id===button.dataset.viewport)||viewports[0];loadPreview()}));
+    }
+    function renderScope(){
+      focusList.innerHTML = selectedPage.focus.map((item)=>'<li><span class="check" aria-hidden="true">✓</span><span>'+item+'</span></li>').join('');
+      preserveList.innerHTML = selectedPage.preserve.map((item)=>'<li><span class="bullet" aria-hidden="true"></span><span>'+item+'</span></li>').join('');
+    }
+    function loadPreview(){
+      stageTitle.textContent=selectedPage.label;
+      stagePath.textContent=selectedPage.path;
+      address.textContent='cqsheng1990.github.io'+selectedPage.path;
+      frameShell.style.width=selectedViewport.width+'px';
+      frameShell.style.height=selectedViewport.height+'px';
+      pageFrame.title=selectedPage.label+'实时预览';
+      pageFrame.src=previewUrl(selectedPage.path);
+      interactionEnabled=false;
+      pageFrame.style.pointerEvents='none';
+      lockOverlay.style.display='grid';
+      interactionNote.textContent='当前仅检查视觉、布局与内容层级；下方页面范围会告诉你优先改哪里，以及哪些逻辑保持不动。';
+      renderLists();
+    }
+    document.getElementById('reload').addEventListener('click',loadPreview);
+    document.getElementById('openPage').addEventListener('click',()=>window.open(selectedPage.path,'_blank','noopener,noreferrer'));
+    document.getElementById('enableInteraction').addEventListener('click',()=>{
+      interactionEnabled=true;
+      pageFrame.style.pointerEvents='auto';
+      pageFrame.removeAttribute('tabindex');
+      lockOverlay.style.display='none';
+      interactionNote.textContent='已开启页面交互。当前操作发生在线上页面，请避免提交、保存、删除或清空数据。';
+    });
+    renderScope();
+    loadPreview();
+  </script>
+</body>
+</html>
