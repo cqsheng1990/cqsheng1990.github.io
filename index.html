@@ -33,9 +33,15 @@
     marquee.appendChild(track);
     section.appendChild(marquee);
   }
-  var observer = new MutationObserver(mountCoreMarquee);
-  observer.observe(document.documentElement, { childList: true, subtree: true });
-  mountCoreMarquee();
-  window.addEventListener("load", mountCoreMarquee);
+  function startAfterHydration() {
+    var observer = new MutationObserver(function () {
+      window.requestAnimationFrame(mountCoreMarquee);
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+    mountCoreMarquee();
+  }
+  window.addEventListener("load", function () {
+    window.setTimeout(startAfterHydration, 300);
+  });
 })();
 </script></body></html>
