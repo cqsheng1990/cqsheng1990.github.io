@@ -254,4 +254,58 @@
     window.setTimeout(startAfterHydration, 300);
   });
 })();
+</script><style id="zodiac-compact-style">
+.zodiac-compact>div:nth-child(2){padding:1rem!important}
+.zodiac-compact>div:nth-child(2)>div{margin-bottom:1rem!important}
+.zodiac-compact>div:nth-child(2)>div:last-child{margin-bottom:0!important}
+.zodiac-compact>div:nth-child(2) .mb-6{margin-bottom:1rem!important}
+.zodiac-compact>div:nth-child(2) .mb-4{margin-bottom:.75rem!important}
+.zodiac-compact .zodiac-card-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem!important}
+.zodiac-compact .zodiac-card-grid>div{min-width:0;border-radius:.5rem!important;box-shadow:none!important}
+.zodiac-compact .zodiac-card-grid>div>div:first-child{padding:.75rem!important}
+.zodiac-compact .zodiac-card-grid>div>div:last-child{padding:.75rem!important}
+.zodiac-compact .zodiac-card-grid .p-5{padding:.75rem!important}
+.zodiac-compact .zodiac-card-grid .mb-4{margin-bottom:.5rem!important}
+.zodiac-compact .zodiac-card-grid .space-y-4{row-gap:.5rem!important}
+.zodiac-compact .zodiac-card-grid .gap-3{gap:.5rem!important}
+.zodiac-compact .zodiac-card-grid .gap-2\.5{gap:.375rem!important}
+.zodiac-compact .zodiac-card-grid .leading-relaxed{line-height:1.6!important}
+@media(max-width:639px){.zodiac-compact>div:nth-child(2){padding:.875rem!important}.zodiac-compact .zodiac-card-grid{grid-template-columns:1fr!important}.zodiac-compact .zodiac-card-grid>div>div:first-child,.zodiac-compact .zodiac-card-grid>div>div:last-child{padding:.75rem!important}}
+</style>
+<script data-zodiac-compact-script>
+(function () {
+  function markZodiacCards() {
+    var heading = Array.prototype.find.call(document.querySelectorAll("h3"), function (node) {
+      return node.textContent.trim() === "生肖生克";
+    });
+    if (!heading) return;
+    var panel = heading.closest("div.bg-card.rounded-xl");
+    if (!panel) return;
+    panel.classList.add("zodiac-compact");
+    var content = panel.children[1];
+    if (!content) return;
+    ["有利的生肖", "不利的生肖"].forEach(function (label) {
+      var title = Array.prototype.find.call(content.querySelectorAll("div"), function (node) {
+        return node.textContent.trim() === label;
+      });
+      var section = title && title.parentElement;
+      var list = section && section.children[1];
+      if (!list || list.classList.contains("zodiac-card-grid") || !list.children.length) return;
+      list.classList.add("zodiac-card-grid");
+      Array.prototype.forEach.call(list.children, function (card) {
+        card.classList.add("zodiac-tofu");
+      });
+    });
+  }
+  function startAfterHydration() {
+    var observer = new MutationObserver(function () {
+      window.requestAnimationFrame(markZodiacCards);
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+    markZodiacCards();
+  }
+  window.addEventListener("load", function () {
+    window.setTimeout(startAfterHydration, 300);
+  });
+})();
 </script></body></html>
