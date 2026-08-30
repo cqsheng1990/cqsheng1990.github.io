@@ -33,12 +33,55 @@
     marquee.appendChild(track);
     section.appendChild(marquee);
   }
+  function mountReadingPanel() {
+    var panel = Array.prototype.find.call(document.querySelectorAll("div.bg-charcoal-900.rounded-lg"), function (node) {
+      return node.textContent.indexOf("八字命理并非") >= 0;
+    });
+    if (!panel || panel.querySelector(".reading-panel-rebuilt")) return;
+    var copies = Array.prototype.map.call(panel.querySelectorAll(".animate-marquee"), function (node) {
+      return node.textContent.trim();
+    });
+    if (copies.length < 2) return;
+    panel.innerHTML = "";
+    var marker = document.createElement("div");
+    marker.className = "reading-panel-rebuilt flex items-center gap-3 border-b border-charcoal-700 pb-4";
+    var dot = document.createElement("span");
+    dot.className = "h-2 w-2 shrink-0 rounded-full bg-primary-400";
+    var title = document.createElement("span");
+    title.className = "text-xs font-bold tracking-[0.18em] text-primary-300";
+    title.textContent = "阅读提示";
+    var subtitle = document.createElement("span");
+    subtitle.className = "text-sm text-charcoal-400";
+    subtitle.textContent = "把传统规则放回现实观察";
+    marker.append(dot, title, subtitle);
+    var content = document.createElement("div");
+    content.className = "mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-7";
+    function addColumn(index, label, text, borderClass) {
+      var column = document.createElement("div");
+      column.className = "border-l-2 pl-4 " + borderClass;
+      var eyebrow = document.createElement("span");
+      eyebrow.className = "text-xs font-bold tracking-[0.16em] text-primary-300";
+      eyebrow.textContent = "0" + index + "  " + label;
+      var paragraph = document.createElement("p");
+      paragraph.className = "mt-2 text-sm leading-7 text-charcoal-200";
+      paragraph.textContent = text;
+      column.append(eyebrow, paragraph);
+      content.appendChild(column);
+    }
+    addColumn(1, "先认识", copies[0], "border-primary-400");
+    addColumn(2, "再应用", copies[1], "border-charcoal-600");
+    panel.append(marker, content);
+  }
+  function mountHomeEnhancements() {
+    mountCoreMarquee();
+    mountReadingPanel();
+  }
   function startAfterHydration() {
     var observer = new MutationObserver(function () {
-      window.requestAnimationFrame(mountCoreMarquee);
+      window.requestAnimationFrame(mountHomeEnhancements);
     });
     observer.observe(document.documentElement, { childList: true, subtree: true });
-    mountCoreMarquee();
+    mountHomeEnhancements();
   }
   window.addEventListener("load", function () {
     window.setTimeout(startAfterHydration, 300);
